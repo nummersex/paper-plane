@@ -11,20 +11,14 @@ import {
 
 const Home = () => {
   const [score, setScore] = useState(0);
-  const [currentDistance, setCurrentDistance] = useState(0);
-  const [bestDistance, setBestDistance] = useState(100);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const handleScoreUpdate = (newScore: number) => {
-    setScore(newScore);
-    if (newScore > bestDistance) {
-      setBestDistance(newScore);
-    }
+    setScore(prevScore => prevScore + newScore);
   };
 
   const handleReset = () => {
     setScore(0);
-    setCurrentDistance(0);
     // This will trigger the GameCanvas to reset the plane position
     const gameCanvas = document.querySelector(".paper-plane");
     if (gameCanvas) {
@@ -39,7 +33,7 @@ const Home = () => {
         Paper Airplane Challenge
       </h1>
 
-      <div className="relative w-full max-w-6xl">
+      <div className="relative w-full max-w-6xl" id="game-container">
         <GameCanvas
           onScoreUpdate={handleScoreUpdate}
           initialPosition={{ x: 100, y: 500 }}
@@ -48,8 +42,6 @@ const Home = () => {
         <div className="absolute top-4 right-4">
           <ScoreBoard
             currentScore={score}
-            bestDistance={bestDistance}
-            currentDistance={currentDistance}
           />
         </div>
       </div>
